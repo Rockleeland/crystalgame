@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 // import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore } from 'redux';
@@ -10,9 +11,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const store = createStore(reducer);
-
+if(localStorage.getItem("id_token")) {
+	
+	// then we will attach it to the headers of each request from react application via axios
+	axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('id_token')}`;
+  }
 //future socket connection
 // export const socket = configureSocket(store.dispatch);
+
 
 ReactDOM.render(
 	<BrowserRouter>
