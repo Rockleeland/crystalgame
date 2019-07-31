@@ -1,0 +1,12 @@
+.navbar {
+	border-bottom: rgb(185, 185, 185) solid 3px;
+}
+.navLinks {
+	color: rgb(163, 159, 159);
+	text-decoration: none;
+}
+
+.navLinks:hover {
+	color: black;
+	text-decoration: none;
+}
