@@ -7,17 +7,30 @@
 		"node": "8.11.1"
 	},
 	"scripts": {
-		"start": "node server.js",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+		"start:prod": "node server.js",
+		"start:dev": "concurrently \"nodemon --ignore 'game/*'\" \"npm run game\"",
+		"game": "cd game && npm run start",
+		"install": "cd game && yarn install",
+		"build": "cd game && npm run build",
 		"heroku-postbuild": "cd game && npm install --only=dev && npm install && npm run build"
 	},
 	"author": "Adam Funk",
 	"license": "ISC",
-	"dependencies": {
+	"devDependencies": {
 		"concurrently": "^4.1.1",
+		"nodemon": "^1.18.3"
+	},
+	"dependencies": {
+		"bcrypt-nodejs": "^0.0.3",
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
+		"express-jwt": "^5.3.1",
+		"jsonwebtoken": "^8.4.0",
+		"if-env": "^1.0.4",
 		"socket.io": "^2.2.0",
+		"mongoose": "^5.4.6",
+		"morgan": "^1.9.1",
 		"socket.io-client": "^2.2.0"
 	}
 }
