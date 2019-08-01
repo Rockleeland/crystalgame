@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import withAuth from '../../withAuth';
 
 
 function Game(props) {
@@ -13,4 +14,4 @@ const mapStateToProps = state => ({
 	name: state.name
   })
 
-export default connect(mapStateToProps)(Game)
+export default connect(mapStateToProps)(withAuth(Game))

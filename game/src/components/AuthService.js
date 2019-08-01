@@ -1,5 +1,6 @@
 import decode from 'jwt-decode';
 import axios from 'axios';
+
 export default class AuthService {
 
     login = (email, password) => {
@@ -8,11 +9,13 @@ export default class AuthService {
         .then(res => {
             // set the token once the user logs in
             this.setToken(res.data.token);
+            console.log(res.data.user)
             // return the rest of the response
+            // dispatch res.data.user to the store
             return res;
         });
     };
-
+   
     getProfile = () => {
         return decode(this.getToken());
     };

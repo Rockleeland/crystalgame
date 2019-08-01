@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import AuthService from '../../AuthService';
 import API from '../../utils/API';
 
+
 class Signup extends Component {
   constructor() {
     super();
@@ -22,6 +23,7 @@ class Signup extends Component {
         // once the user has signed up
         // send them to the login page
         this.props.history.replace('/login');
+       
       })
       .catch(err => alert(err));
   };
@@ -74,4 +76,6 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+
+
+export default (Signup);

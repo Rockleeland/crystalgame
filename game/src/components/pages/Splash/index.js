@@ -9,15 +9,16 @@ class Splash extends React.Component {
 		
 		Auth.logout();
 		this.props.history.replace('/signup');
-	  };
+	};
 	
-	  goToEditProfile = () => {
+	goToEditProfile = () => {
 		this.props.history.replace('/profile');
-	  };
+	};
 	render(){	
+		console.log(this.props)
 	return (
 	
-			<h1>Hello {this.props.name} wanna play Love Letter!</h1>
+			<h1>Hello {this.props.currentUser} wanna play Love Letter!</h1>
 			
 		
 		)
@@ -25,7 +26,7 @@ class Splash extends React.Component {
 }
 
 const mapStateToProps = state => ({
-	name: state.name
+	currentUser: state.name
   })
 
-export default connect(mapStateToProps)(withAuth(Splash))
+export default withAuth(connect(mapStateToProps)(Splash))

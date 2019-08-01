@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import withAuth from '../../withAuth';
+// import API from '../../utils/API'
 
 class Score extends React.Component {
 
@@ -28,7 +29,7 @@ class Score extends React.Component {
 console.log(this.state)
 		return (
 			<div>
-				<h1>{this.props.name}'s High Score!</h1>
+				<h1>{this.props.currentUser}'s High Score!</h1>
 				{list.length ? (
 					<div>
 						{list.map((item) => {
@@ -50,7 +51,7 @@ console.log(this.state)
 }
 
 const mapStateToProps = state => ({
-	name: state.name
+	currentUser: state.name
   })
 
-export default connect(mapStateToProps)(Score)
+export default withAuth(connect(mapStateToProps)(Score))
