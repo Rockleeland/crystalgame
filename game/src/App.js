@@ -8,6 +8,7 @@ import Score from './components/pages/Score';
 import Layout from './components/Layout';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
+import './App.css';
 
 
 class App extends Component {
@@ -17,16 +18,30 @@ class App extends Component {
     const App = () => (
       <div>
         <Layout />
-        <Switch>
-          <Route exact path='/' component={Splash} />
-          <Route exact path='/login' component={Login}/>
-          <Route exact path='/signup' component={Signup}/>
-          <Route path='/profile' component={Profile}/>
-          <Route path='/profile/:id' component={Profile}/>
-          <Route path='/game' component={Game}/>
-          <Route path='/score' component={Score}/>
-          <Route path='/instructions' component={Instructions}/>
-        </Switch>
+          <div className='centered'>
+            <div className='mainContainer'>
+              <div class="outer">
+                <div class="inner">
+                  <i class="top left"></i>
+                  <i class="top right"></i>
+                  <div class="content">
+                    <Switch>
+                        <Route exact path='/' component={Splash} />
+                        <Route exact path='/login' component={Login}/>
+                        <Route exact path='/signup' component={Signup}/>
+                        <Route path='/profile' component={Profile}/>
+                        <Route path='/profile/:id' component={Profile}/>
+                        <Route path='/game' component={Game}/>
+                        <Route path='/score' component={Score}/>
+                        <Route path='/instructions' component={Instructions}/>
+                    </Switch>
+                  </div>
+                  <i class="bottom right"></i>
+                  <i class="bottom left"></i>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     )
     return (
