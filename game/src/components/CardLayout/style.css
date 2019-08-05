@@ -17,7 +17,9 @@
 	background-color: rgba(240, 248, 255, 0.37);
 	border-bottom: gold 2px solid;
 	color: black;
-	font-size: 1.5rem;
+
+	font-family: 'Inconsolata', monospace;
+	font-size: 1.7rem;
 	font-weight: bolder;
 	left: 0;
 	position: absolute;
@@ -29,12 +31,14 @@
 	margin-top: -10px;
 	font-size: xx-small;
 	font-style: italic;
+	/* font-family: 'Press Start 2P', cursive; */
 }
 
 .text {
 	font-size: x-small;
 	padding: 0.5rem;
 	font-size: 0.7rem;
+	font-family: 'Titillium Web', sans-serif;
 }
 
 .text-wrapper {

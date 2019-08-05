@@ -37,7 +37,7 @@ class Instructions extends React.Component {
 						{cards.map((card) => {
 							
 							return(
-									<Col  xs={12} key={cards.indexOf(card)}>
+									<Col  xs={12} md={6} key={cards.indexOf(card)}>
 										<CardLayout data={card} />
 									</Col>
 							)
