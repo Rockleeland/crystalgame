@@ -14,8 +14,7 @@ A browser 2-4 player game based on Love Letter, created by Alderac Entertainment
 - Redux
 - SocketIO
 - Express
-
-* NodeJS
-* Javascript
-* CSS
-* [React Bootstrap](https://react-bootstrap.github.io/)
+- NodeJS
+- Javascript
+- CSS
+- [React Bootstrap](https://react-bootstrap.github.io/)
