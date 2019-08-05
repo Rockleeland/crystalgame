@@ -13,13 +13,11 @@ class Score extends React.Component {
 	};
 	
 	componentWillMount() {
-		
-		this.getList();
+		// this.getList();
 	}
 
 	getList = () => {
-		
-		fetch('/api/getList')
+		fetch('/api/getScores')
 		.then(res => res.json())
 		.then(list => this.setState({list}))
 	}
