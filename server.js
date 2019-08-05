@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan'); // used to see requests
 const app = express();
 const db = require('./models');
+const cards = require("./card/card.js")
 
 const PORT = process.env.PORT || 5000;
 
@@ -82,7 +83,8 @@ app.post('/api/login', (req, res) => {
   
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req,res) => {
-    var list = ["Score: 50", "Score: 30", "Score: 120"];
+  console.log(cards)
+    var list = cards;
     res.json(list);
     console.log('Sent list of items');
 });

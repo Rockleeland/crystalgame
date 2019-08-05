@@ -3,8 +3,8 @@ body {
 }
 
 .centered {
-	height: 93.1vh;
-	background-color: #567cf7fb;
+	height: 100%;
+	background-color: rgb(119, 182, 214);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -23,7 +23,7 @@ body {
 	height: 38px;
 	border: rgba(237, 253, 16, 0.952) 5px solid;
 	border-radius: 50%;
-	background-color: rgba(86, 124, 247, 0.986);
+	background-color: rgb(119, 182, 214);
 }
 .inner .top {
 	margin-top: -20px;

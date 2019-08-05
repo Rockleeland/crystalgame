@@ -1,0 +1,83 @@
+.card-layout {
+	border: rgb(15, 13, 1) 10px solid;
+	background-color: rgba(128, 128, 128, 0.5);
+	background-image: linear-gradient(rgb(89, 126, 247), yellow);
+	border-radius: 10px;
+	color: white;
+	margin: 0 auto;
+	margin-bottom: 2rem;
+	max-height: 25rem;
+	max-width: 20rem;
+	min-height: 25rem;
+	position: relative;
+	overflow: hidden;
+}
+
+.title {
+	background-color: rgba(240, 248, 255, 0.37);
+	border-bottom: gold 2px solid;
+	color: black;
+	font-size: 1.5rem;
+	font-weight: bolder;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 22;
+}
+.flavor {
+	margin-top: -10px;
+	font-size: xx-small;
+	font-style: italic;
+}
+
+.text {
+	font-size: x-small;
+	padding: 0.5rem;
+	font-size: 0.7rem;
+}
+
+.text-wrapper {
+	background-color: rgb(89, 126, 247);
+	background-image: linear-gradient(
+		to bottom right,
+		rgb(89, 126, 247),
+		rgb(111, 178, 199)
+	);
+	border-top: gold solid 2px;
+	bottom: 0;
+	position: absolute;
+	max-height: 10rem;
+	min-height: 10rem;
+}
+
+.power {
+	background-color: rgb(89, 126, 247);
+	background-image: radial-gradient(
+		circle,
+		rgb(224, 251, 251),
+		rgb(161, 182, 248),
+		rgb(95, 131, 248)
+	);
+	border: gold solid 3px;
+	border-radius: 0% 0% 50% 0%;
+	color: rgb(31, 27, 4);
+	font-size: 3rem;
+	left: 0;
+	margin: -5px 0 0 -5px;
+	position: absolute;
+	width: 20%;
+	top: 0;
+	z-index: 50;
+}
+.image-container {
+	overflow: hidden;
+}
+.card-layout > div > img {
+	margin-left: 2rem;
+	max-width: 100%;
+	max-height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+}

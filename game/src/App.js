@@ -20,11 +20,11 @@ class App extends Component {
         <Layout />
           <div className='centered'>
             <div className='mainContainer'>
-              <div class="outer">
-                <div class="inner">
-                  <i class="top left"></i>
-                  <i class="top right"></i>
-                  <div class="content">
+              <div className="outer">
+                <div className="inner">
+                  <i className="top left"></i>
+                  <i className="top right"></i>
+                  <div className="content">
                     <Switch>
                         <Route exact path='/' component={Splash} />
                         <Route exact path='/login' component={Login}/>
@@ -36,8 +36,8 @@ class App extends Component {
                         <Route path='/instructions' component={Instructions}/>
                     </Switch>
                   </div>
-                  <i class="bottom right"></i>
-                  <i class="bottom left"></i>
+                  <i className="bottom right"></i>
+                  <i className="bottom left"></i>
                 </div>
               </div>
             </div>
