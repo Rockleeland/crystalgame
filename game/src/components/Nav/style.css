@@ -1,9 +1,14 @@
 .navbar {
 	border-bottom: rgb(185, 185, 185) solid 3px;
 }
+.nav-container {
+	background-color: aliceblue;
+}
+
 .navLinks {
 	color: rgb(163, 159, 159);
 	text-decoration: none;
+	padding: 5px;
 }
 
 .navLinks:hover {
