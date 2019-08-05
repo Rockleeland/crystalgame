@@ -7,3 +7,15 @@ A browser 2-4 player game based on Love Letter, created by Alderac Entertainment
 [Love Letter by: Asmodee](https://www.asmodee.co.uk/news-item/brand-new-edition-of-love-letter-announced-by-z-man-games/)
 
 [Asmodee Digital Love Letter](https://www.asmodee-digital.com/en/love-letter/)
+
+## Technologies Used
+
+- React
+- Redux
+- SocketIO
+- Express
+
+* NodeJS
+* Javascript
+* CSS
+* [React Bootstrap](https://react-bootstrap.github.io/)
