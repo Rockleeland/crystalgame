@@ -6,8 +6,12 @@ const mongoose = require('mongoose');
 const morgan = require('morgan'); // used to see requests
 const app = express();
 const db = require('./models');
+const http = require('http')
+const socketIo = require('socket.io')
+const server = http.createServer(app)
+const io = socketIo(server);
 const cards = require("./card/card.js")
-
+// const socket = require('socket.io')
 const PORT = process.env.PORT || 5000;
 
 //log all requests to the console
@@ -24,6 +28,31 @@ mongoose.set('useCreateIndex', true);
 // Init the express-jwt middleware
 const isAuthenticated = exjwt({
     secret: 'all sorts of code up in here'
+  });
+
+
+  let names = [];
+  let serverNames = [];
+  io.on('connection', socket => {
+  
+    // add the newest client to the list of active clients
+    // then broadcast that to all connected clienhts 
+    socket.on('SEND_NAME_TO_SERVER', name => {
+      serverNames = [...serverNames, { socketId: socket.id, name }];
+      names = [...names, name];
+      socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
+      socket.emit('SEND_NAMES_TO_CLIENTS', names);
+    });
+  
+    // this is to make sure that when a client disconnects
+    // the client's name will be removed from our server's list of names
+    // then broadcast that to everybody connected so their list will be updated
+    socket.on('disconnect', () => {
+      serverNames = serverNames.filter(data => data.socketId !== socket.id);
+      names = serverNames.map(data => data.name);
+      socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
+      socket.emit('SEND_NAMES_TO_CLIENTS', names);
+    });
   });
 
   // LOGIN ROUTE
@@ -52,6 +81,8 @@ app.post('/api/login', (req, res) => {
   // Any route with isAuthenticated is protected and you need a valid token
   // to access
   app.get('/api/user/:id', isAuthenticated, (req, res) => {
+    console.log('getid')
+    console.log(req.params)
     db.User.findById(req.params.id).then(data => {
       if(data) {
         res.json(data);
@@ -83,10 +114,10 @@ app.post('/api/login', (req, res) => {
   
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req,res) => {
-  console.log(cards)
+  
     var list = cards;
     res.json(list);
-    console.log('Sent list of items');
+    
 });
 
 // Handles any requests that don't match the ones above
@@ -95,6 +126,6 @@ app.get('*', (req,res) =>{
 });
 
 
-app.listen(PORT);
+server.listen(PORT);
 
 console.log('App is listening on port ' + PORT);

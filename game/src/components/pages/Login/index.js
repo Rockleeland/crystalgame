@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AuthService from '../../AuthService';
 import {Link} from 'react-router-dom';
-
+import { connect } from 'react-redux';
 class Login extends Component {
   constructor() {
     super();
@@ -9,6 +9,7 @@ class Login extends Component {
   }
 
   componentWillMount() {
+    
     if (this.Auth.loggedIn()) {
       this.props.history.replace('/');
     }
@@ -19,6 +20,9 @@ class Login extends Component {
 
     this.Auth.login(this.state.email, this.state.password)
       .then(res => {
+        const { dispatch } = this.props;
+        let name = res.data.user.username;
+        dispatch({ type: 'ASSIGNED_USERNAME', name });
         // once user is logged in
         // take them to their profile page
         this.props.history.replace(`/profile`);
@@ -27,6 +31,7 @@ class Login extends Component {
         alert(err.response.data.message)
       });
   };
+
 
   handleChange = event => {
     const {name, value} = event.target;
@@ -67,4 +72,9 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  name: state.name,
+  names: state.names,
+});
+
+export default connect(mapStateToProps)(Login);

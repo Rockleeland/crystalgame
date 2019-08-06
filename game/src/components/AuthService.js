@@ -2,21 +2,19 @@ import decode from 'jwt-decode';
 import axios from 'axios';
 
 export default class AuthService {
-
     login = (email, password) => {
         // Get a token
         return axios.post('api/login', {email: email, password: password})
         .then(res => {
             // set the token once the user logs in
             this.setToken(res.data.token);
-            console.log(res.data.user)
             // return the rest of the response
-            // dispatch res.data.user to the store
             return res;
         });
     };
    
     getProfile = () => {
+        
         return decode(this.getToken());
     };
 
@@ -27,6 +25,7 @@ export default class AuthService {
     }
 
     isTokenExpired(token) {
+  
         try {
             const decoded = decode(token);
             if (decoded.exp < Date.now() / 1000) {
@@ -58,7 +57,4 @@ export default class AuthService {
         // this will reload the page and reset the state of the application
         window.location.reload('/');
     }
-
-
-
 }

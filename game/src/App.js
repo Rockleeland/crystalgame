@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getProfileFetch} from './components/actions';
+// import { sendNameToServer } from './socket.io/index';
 import Splash from './components/pages/Splash';
 import Profile from './components/pages/Profile';
 import Game from './components/pages/Game';
@@ -10,10 +13,26 @@ import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import './App.css';
 
+// import withAuth from './components/withAuth'
+
+
 
 class App extends Component {
-  
+
+componentDidMount() { 
+    console.log(localStorage)
+    if (localStorage.token !== undefined && localStorage.token) { 
+    this.props.getProfileFetch()
+    }
+    // const { dispatch } = this.props;
+    // const name = this.props
+    
+    // put this socket's username inside the server
+    // dispatch({ type: 'ASSIGNED_USERNAME', name });
+    // sendNameToServer(name);
+  }
   render() {
+    console.log(this.props)
    
     const App = () => (
       <div>
@@ -52,4 +71,13 @@ class App extends Component {
   }
 }
 
-export default (App);
+const mapDispatchToProps = dispatch => ({
+  getProfileFetch: () => dispatch(getProfileFetch())
+})
+
+const mapStateToProps = state => ({
+  name: state.name,
+  names: state.names,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
