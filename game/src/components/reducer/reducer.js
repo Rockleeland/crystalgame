@@ -18,7 +18,12 @@ const reducer = (
 		case 'LOGIN_USER':
 			console.log({...state})
 			console.log(action)
-			state = { ...state, name: action.payload.username, names: action.payload.username, email: action.payload.email};
+			state = { 
+				...state, 
+				name: action.payload.username, 
+				names: action.payload.username, 
+				email: action.payload.email
+			};
 			console.log(state)
 			break;
 		case 'ASSIGNED_USERNAME':

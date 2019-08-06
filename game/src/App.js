@@ -21,7 +21,7 @@ class App extends Component {
 
 componentDidMount() { 
     console.log(localStorage)
-    if (localStorage.token !== undefined && localStorage.token) { 
+    if ((localStorage.token !== 'undefined' && localStorage.token) || localStorage.id_token) { 
     this.props.getProfileFetch()
     }
     // const { dispatch } = this.props;
