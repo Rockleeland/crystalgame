@@ -4,7 +4,7 @@ import './style.css';
 
 
 function CardLayout(props) {
-    console.log(props)
+
     const card = props.data
     return (
         <div>

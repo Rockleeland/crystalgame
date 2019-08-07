@@ -24,7 +24,7 @@ class Score extends React.Component {
 
 	render(){
 		const { list } = this.state;
-console.log(this.state)
+
 		return (
 			<div>
 				<h1>{this.props.currentUser}'s High Score!</h1>
@@ -50,6 +50,6 @@ console.log(this.state)
 
 const mapStateToProps = state => ({
 	currentUser: state.name
-  })
+})
 
 export default withAuth(connect(mapStateToProps)(Score))

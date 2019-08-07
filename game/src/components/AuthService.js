@@ -12,9 +12,8 @@ export default class AuthService {
             return res;
         });
     };
-   
+
     getProfile = () => {
-        
         return decode(this.getToken());
     };
 
@@ -25,7 +24,6 @@ export default class AuthService {
     }
 
     isTokenExpired(token) {
-  
         try {
             const decoded = decode(token);
             if (decoded.exp < Date.now() / 1000) {

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AuthService from '../../AuthService';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
+
 class Login extends Component {
   constructor() {
     super();
@@ -20,6 +21,7 @@ class Login extends Component {
 
     this.Auth.login(this.state.email, this.state.password)
       .then(res => {
+        //add user to socket?
         const { dispatch } = this.props;
         let name = res.data.user.username;
         dispatch({ type: 'ASSIGNED_USERNAME', name });
@@ -31,7 +33,6 @@ class Login extends Component {
         alert(err.response.data.message)
       });
   };
-
 
   handleChange = event => {
     const {name, value} = event.target;
@@ -48,20 +49,20 @@ class Login extends Component {
           <div className="form-group">
             <label htmlFor="email">Email address:</label>
             <input className="form-control"
-                   placeholder="Email goes here..."
-                   name="email"
-                   type="email"
-                   id="email"
-                   onChange={this.handleChange}/>
+              placeholder="Email goes here..."
+              name="email"
+              type="email"
+              id="email"
+              onChange={this.handleChange}/>
           </div>
           <div className="form-group">
             <label htmlFor="pwd">Password:</label>
             <input className="form-control"
-                   placeholder="Password goes here..."
-                   name="password"
-                   type="password"
-                   id="pwd"
-                   onChange={this.handleChange}/>
+              placeholder="Password goes here..."
+              name="password"
+              type="password"
+              id="pwd"
+              onChange={this.handleChange}/>
           </div>
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>

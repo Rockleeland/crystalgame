@@ -13,14 +13,9 @@ import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import './App.css';
 
-// import withAuth from './components/withAuth'
-
-
-
 class App extends Component {
 
 componentDidMount() { 
-    console.log(localStorage)
     if ((localStorage.token !== 'undefined' && localStorage.token) || localStorage.id_token) { 
     this.props.getProfileFetch()
     }
@@ -32,8 +27,6 @@ componentDidMount() {
     // sendNameToServer(name);
   }
   render() {
-    console.log(this.props)
-   
     const App = () => (
       <div>
         <Layout />

@@ -30,7 +30,6 @@ export default function withAuth(AuthComponent) {
         }
 
         render() {
-           
             if (this.state.user) {
                 return (
                     <AuthComponent 

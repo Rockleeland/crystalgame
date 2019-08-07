@@ -23,11 +23,9 @@ class Instructions extends React.Component {
 		.then(list => this.setState({list}))
 	}
 	
-	
 	render(){
-
 		const cards = this.state.list;
-		console.log(cards)
+	
 		return (
 			<div>
 				<h1>How To Play</h1>

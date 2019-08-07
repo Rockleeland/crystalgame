@@ -28,7 +28,7 @@ class Nav extends React.Component {
 								<NavLink className='navLinks' to='/game'>New Game</NavLink>
 							</div>
 							   {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-							<div className='mr-auto navbar-nav'>
+							<div >
 								<Navbar.Text>Signed in as: <NavLink to='/profile'>{this.props.name}</NavLink></Navbar.Text>
 								<Navbar.Text><a className="nav-link" href="/" onClick={() => this.Auth.logout()}>Logout</a></Navbar.Text>
 							</div>
