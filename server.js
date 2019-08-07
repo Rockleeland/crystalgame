@@ -34,24 +34,33 @@ const isAuthenticated = exjwt({
   let names = [];
   let serverNames = [];
   io.on('connection', socket => {
-  
+  console.log('New user connected: Backend');
+
+  socket.on('private message', function (from, msg) {
+    console.log('I received a private message by ', from, ' saying ', msg);
+  });
+  socket.on('new', name => {
+    console.log('name received!')
+    console.log(name);
+  })
     // add the newest client to the list of active clients
     // then broadcast that to all connected clienhts 
-    socket.on('SEND_NAME_TO_SERVER', name => {
-      serverNames = [...serverNames, { socketId: socket.id, name }];
-      names = [...names, name];
-      socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
-      socket.emit('SEND_NAMES_TO_CLIENTS', names);
-    });
+    // socket.on('SEND_NAME_TO_SERVER', name => {
+    //   serverNames = [...serverNames, { socketId: socket.id, name }];
+    //   names = [...names, name];
+    //   socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
+    //   socket.emit('SEND_NAMES_TO_CLIENTS', names);
+    // });
   
     // this is to make sure that when a client disconnects
     // the client's name will be removed from our server's list of names
     // then broadcast that to everybody connected so their list will be updated
     socket.on('disconnect', () => {
-      serverNames = serverNames.filter(data => data.socketId !== socket.id);
-      names = serverNames.map(data => data.name);
-      socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
-      socket.emit('SEND_NAMES_TO_CLIENTS', names);
+      console.log('User disconnected');
+      // serverNames = serverNames.filter(data => data.socketId !== socket.id);
+      // names = serverNames.map(data => data.name);
+      // socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
+      // socket.emit('SEND_NAMES_TO_CLIENTS', names);
     });
   });
 

@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from './components/reducer/reducer';
 import { Provider } from 'react-redux';
-import configureSocket from './socket.io/index';
+// import configureSocket from './socket.io/index';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
@@ -17,7 +17,7 @@ if(localStorage.getItem("id_token")) {
 	axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('id_token')}`;
   }
 //future socket connection
-export const socket = configureSocket(store.dispatch);
+// export const socket = configureSocket(store.dispatch);
 
 
 ReactDOM.render(
