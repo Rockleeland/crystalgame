@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getProfileFetch} from './components/actions';
+import {newFriend} from './components/actions';
 // import { sendNameToServer } from './socket.io/index';
 import Splash from './components/pages/Splash';
 import Profile from './components/pages/Profile';
@@ -14,39 +15,48 @@ import Signup from './components/pages/Signup';
 import './App.css';
 import io from 'socket.io-client';
 
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       endpoint: "http://localhost:5000",
+  
     };
   }
-
-componentDidMount() { 
+  
+  componentDidMount() { 
     if ((localStorage.token !== 'undefined' && localStorage.token) || localStorage.id_token) { 
-    this.props.getProfileFetch()
+      this.props.getProfileFetch()
     }
     // const { dispatch } = this.props;
     // const name = this.props
-    
     // put this socket's username inside the server
     // dispatch({ type: 'ASSIGNED_USERNAME', name });
     // sendNameToServer(name);
     // const allUsers = this.props.names;
-    
-    
   }
   
   send =()=>{
-console.log('send')
     const socket = io(this.state.endpoint);
-  
-      socket.emit('new', this.props.name)
+    socket.emit('new', this.props.name)
   }
-
+  
   render() {
-  this.send()  
-    console.log(this.props.names);
+    let allUsers = this.props
+    this.send()  
+
+    const socket = io(this.state.endpoint);
+   
+    socket.on('new', name => {
+      if(name.length >= 2){
+        console.log(name)
+        this.props.newFriend(name)
+    
+        }
+    })
+
+    // console.log(allUsers)
     const App = () => (
       <div>
         <Layout />
@@ -57,9 +67,7 @@ console.log('send')
                   <i className="top left"></i>
                   <i className="top right"></i>
                   <div className="content">
-                    {/* <div className='connected'>{allUsers.length ? (allUsers.map(x => {
-                      return(<h2>{x}</h2>)
-                    })):(null)}</div> */}
+                    <div className='connected'>{allUsers.length ? (allUsers.map(x => { return <h2>{x}</h2>})) : (null) }</div>
                     <Switch>
                         <Route exact path='/' component={Splash} />
                         <Route exact path='/login' component={Login}/>
@@ -87,9 +95,11 @@ console.log('send')
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getProfileFetch: () => dispatch(getProfileFetch())
-})
+const mapDispatchToProps = dispatch => {
+  return {
+  getProfileFetch: () => dispatch(getProfileFetch()),
+  newFriend: () => dispatch(newFriend()),
+}}
 
 const mapStateToProps = state => ({
   name: state.name,

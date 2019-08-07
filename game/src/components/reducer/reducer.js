@@ -7,7 +7,6 @@ function capitalize(x) {
 }
 const reducer = (
 	state = {
-		// name: 'Adam',
 		currentUser: {},
 		pot: 0,
 		snackbarIsOpen: false,
@@ -18,16 +17,23 @@ const reducer = (
 		email: null
 	}, action
 ) => {
+	console.log(action)
 	switch(action.type) {
 		case 'LOGIN_USER':
 			const name = capitalize(action.payload.username)
 			state = { 
 				...state, 
 				name: name, 
-				names: name, 
 				email: action.payload.email
 			};
-			console.log(state)
+			break;
+		case 'NEW_FRIEND':
+			console.log(action.payload)
+			state = {
+				...state,
+				names: action.payload
+			};
+			console.log(state);
 			break;
 		case 'ASSIGNED_USERNAME':
 		  // put the assigned client's username to the pot

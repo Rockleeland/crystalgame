@@ -34,14 +34,21 @@ const isAuthenticated = exjwt({
   let names = [];
   let serverNames = [];
   io.on('connection', socket => {
-  console.log('New user connected: Backend');
+  // console.log('New user connected: Backend');
 
   socket.on('private message', function (from, msg) {
     console.log('I received a private message by ', from, ' saying ', msg);
   });
+
   socket.on('new', name => {
-    console.log('name received!')
-    console.log(name);
+    if (name !== null){
+      console.log('name received!')
+      console.log(name);
+      serverNames = [...serverNames, { socketId: socket.id, name }];
+      names = [...names, name];
+      console.log('array ' + names)
+      io.sockets.emit('new', names)
+    }
   })
     // add the newest client to the list of active clients
     // then broadcast that to all connected clienhts 

@@ -1,5 +1,7 @@
 import AuthService from '../AuthService';
 
+
+
 export const getProfileFetch = () => {
 	let x = getID()
 	return dispatch => {
@@ -29,6 +31,7 @@ export const getProfileFetch = () => {
 	}
 }
 
+
 const getID = () => {
 	const Auth = new AuthService()  
 	let currentProfile = Auth.getProfile()
@@ -38,4 +41,9 @@ const getID = () => {
 const loginUser = userObj => ({
     type: 'LOGIN_USER',
     payload: userObj
+})
+
+export const newFriend = userObj => ({
+	type: "NEW_FRIEND",
+	payload: userObj
 })
