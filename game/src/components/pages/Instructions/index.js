@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import CardLayout from '../../CardLayout'
+import CrystalCard from '../../crystalCards'
 import './style.css'
 
 
@@ -10,33 +10,33 @@ class Instructions extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			list: []
+			crystals: []
 		}
 	};
 	componentWillMount() {
-		this.getList();
+		this.getCrystal();
 	}
 	
-	getList = () => {
-		fetch('/api/getList')
+	getCrystal = () => {
+		fetch('/api/getCrystal')
 		.then(res => res.json())
-		.then(list => this.setState({list}))
+		.then(crystals => this.setState({crystals}))
 	}
 	
 	render(){
-		const cards = this.state.list;
-	
+		const crystals = this.state.crystals;
+		console.log(crystals)
 		return (
 			<div>
 				<h1>How To Play</h1>
-				{cards.length ? (
+				{crystals.length ? (
 					<Container>
 						<Row>
-						{cards.map((card) => {
+						{crystals.map((crystal) => {
 							
 							return(
-									<Col  xs={12} md={6} key={cards.indexOf(card)}>
-										<CardLayout data={card} />
+									<Col  xs={12} md={6} key={crystals.indexOf(crystal)}>
+										<CrystalCard data={crystal}/>
 									</Col>
 							)
 						})}

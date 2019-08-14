@@ -10,7 +10,7 @@ const http = require('http')
 const socketIo = require('socket.io')
 const server = http.createServer(app)
 const io = socketIo(server);
-const cards = require("./card/card.js")
+const crystal = require("./cyrstal/crystal")
 // const socket = require('socket.io')
 const PORT = process.env.PORT || 5000;
 
@@ -130,10 +130,13 @@ app.post('/api/login', (req, res) => {
   
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req,res) => {
-  
-    var list = cards;
+    const list = cards;
     res.json(list);
-    
+});
+
+app.get('/api/getCrystal', (req,res) => {
+  const crystals = crystal;
+  res.json(crystals);
 });
 
 // Handles any requests that don't match the ones above
