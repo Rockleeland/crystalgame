@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 // import configureSocket from './socket.io/index';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './components/utils/FontLibrary';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 

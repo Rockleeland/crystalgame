@@ -1,0 +1,41 @@
+.chat-wrapper {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+.card {
+	background-color: rgb(19, 19, 19);
+	color: rgb(255, 255, 7);
+}
+.card-footer {
+	display: flex;
+	justify-content: end;
+}
+.form-control::placeholder {
+	color: yellow;
+}
+.form-control {
+	border: yellow solid 1px;
+	color: yellow;
+	background-color: rgba(53, 53, 53, 0.918);
+}
+.form-control:focus {
+	border: yellow solid 1px;
+	color: yellow;
+	background-color: rgba(53, 53, 53, 0.918);
+}
+button {
+	max-width: 100px;
+}
+.btn-primary {
+	border: rgba(255, 230, 0, 0.925) solid 2px;
+	color: rgb(46, 45, 45);
+	background-color: rgba(255, 230, 0, 0.883);
+	margin-bottom: 2rem;
+}
+.btn-primary:hover {
+	border: rgb(255, 230, 0) solid 2px;
+	color: rgb(0, 0, 0);
+	background-color: rgb(255, 230, 0);
+}
