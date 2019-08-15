@@ -1,3 +1,5 @@
+
+// require express
 const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -6,19 +8,23 @@ const mongoose = require('mongoose');
 const morgan = require('morgan'); // used to see requests
 const app = express();
 const db = require('./models');
-const http = require('http')
-const socketIo = require('socket.io')
-const server = http.createServer(app)
+// Socket.io requires
+const http = require('http');
+const socketIo = require('socket.io');
+const server = http.createServer(app);
 const io = socketIo(server);
+// file requires
 const crystal = require("./cyrstal/crystal")
-// const socket = require('socket.io')
+// Create PORT
 const PORT = process.env.PORT || 5000;
+
 
 //log all requests to the console
 app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('.'));
 // Serve the static files from the React app
 // app.use(express.static(path.join(__dirname, 'game/build')));
 
@@ -30,49 +36,26 @@ const isAuthenticated = exjwt({
     secret: 'all sorts of code up in here'
   });
 
-
-  let names = [];
-  let serverNames = [];
-  io.on('connection', socket => {
-  // console.log('New user connected: Backend');
-
-  socket.on('private message', function (from, msg) {
-    console.log('I received a private message by ', from, ' saying ', msg);
-  });
-
-  socket.on('new', name => {
-    if (name !== null){
-      console.log('name received!')
-      console.log(name);
-      serverNames = [...serverNames, { socketId: socket.id, name }];
-      names = [...names, name];
-      console.log('array ' + names)
-      io.sockets.emit('new', names)
-    }
-  })
-    // add the newest client to the list of active clients
-    // then broadcast that to all connected clienhts 
-    // socket.on('SEND_NAME_TO_SERVER', name => {
-    //   serverNames = [...serverNames, { socketId: socket.id, name }];
-    //   names = [...names, name];
-    //   socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
-    //   socket.emit('SEND_NAMES_TO_CLIENTS', names);
-    // });
+// Socket.io 
+ 
   
-    // this is to make sure that when a client disconnects
-    // the client's name will be removed from our server's list of names
-    // then broadcast that to everybody connected so their list will be updated
+  io.on('connection', socket => {
+  console.log('New user connected: Backend');
+    console.log(socket.id)
+    socket.on('SEND_MESSAGE', function(data){
+      io.emit('RECEIVE_MESSAGE', data);
+      
+  })
+
     socket.on('disconnect', () => {
       console.log('User disconnected');
-      // serverNames = serverNames.filter(data => data.socketId !== socket.id);
-      // names = serverNames.map(data => data.name);
-      // socket.broadcast.emit('SEND_NAMES_TO_CLIENTS', names);
-      // socket.emit('SEND_NAMES_TO_CLIENTS', names);
+      
     });
   });
 
-  // LOGIN ROUTE
+ // LOGIN ROUTE
 app.post('/api/login', (req, res) => {
+  console.log(req.body)
     db.User.findOne({
       email: req.body.email
     }).then(user => {
@@ -87,8 +70,9 @@ app.post('/api/login', (req, res) => {
     }).catch(err => res.status(404).json({success: false, message: "User not found", error: err}));
   });
   
-  // SIGNUP ROUTE
+ // SIGNUP ROUTE
   app.post('/api/signup', (req, res) => {
+    console.log(req.body)
     db.User.create(req.body)
       .then(data => res.json(data))
       .catch(err => res.status(400).json(err));
@@ -112,7 +96,14 @@ app.post('/api/login', (req, res) => {
   if (process.env.NODE_ENV === "production") {
     app.use(express.static("game/build"));
   }
-  
+  // Store user messages
+app.post('/api/message', (req, res) => {
+  console.log(req.body)
+  db.Message.create(req.body)
+    .then(data => res.json(data))
+    .catch(err => res.status(400).json(err));
+    
+})
   
   app.get('/', isAuthenticated /* Using the express jwt MW here */, (req, res) => {
     res.send('You are authenticated'); //Sending some response when authenticated
@@ -145,6 +136,6 @@ app.get('*', (req,res) =>{
 });
 
 
-server.listen(PORT);
-
-console.log('App is listening on port ' + PORT);
+server.listen(PORT, function () {
+  console.log('App is listening on port ' + PORT);
+});
