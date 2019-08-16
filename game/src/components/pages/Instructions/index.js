@@ -25,7 +25,6 @@ class Instructions extends React.Component {
 	
 	render(){
 		const crystals = this.state.crystals;
-		console.log(crystals)
 		return (
 			<div>
 				<h1>How To Play</h1>

@@ -17,7 +17,7 @@ const reducer = (
 		email: null
 	}, action
 ) => {
-	console.log(action)
+	
 	switch(action.type) {
 		case 'LOGIN_USER':
 			const name = capitalize(action.payload.username)
@@ -28,12 +28,10 @@ const reducer = (
 			};
 			break;
 		case 'NEW_FRIEND':
-			console.log(action.payload)
 			state = {
 				...state,
 				names: action.payload
 			};
-			console.log(state);
 			break;
 		case 'ASSIGNED_USERNAME':
 		  // put the assigned client's username to the pot

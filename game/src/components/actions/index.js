@@ -44,3 +44,4 @@ export const newFriend = userObj => ({
 	type: 'NEW_FRIEND',
 	payload: userObj,
 });
+
