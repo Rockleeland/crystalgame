@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const exjwt = require('express-jwt');
 const mongoose = require('mongoose');
 const morgan = require('morgan'); // used to see requests
-const app = express();
 const db = require('./models');
 // Socket.io requires
 const http = require('http');
@@ -17,6 +16,9 @@ const crystal = require('./cyrstal/crystal');
 // Create PORT
 const PORT = process.env.PORT || 5000;
 
+const app = express();
+const server = http.createServer(app)
+const io = socketIo(server);
 //log all requests to the console
 app.use(morgan('dev'));
 
