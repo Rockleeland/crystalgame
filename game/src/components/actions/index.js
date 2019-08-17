@@ -45,3 +45,7 @@ export const newFriend = userObj => ({
 	payload: userObj,
 });
 
+export const userSwitch = () => ({
+	type: 'IS_USER_SWITCH',
+})
+

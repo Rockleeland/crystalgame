@@ -11,6 +11,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './components/utils/FontLibrary';
 
+
 const store = createStore(reducer, applyMiddleware(thunk));
 
 if(localStorage.getItem("id_token")) {

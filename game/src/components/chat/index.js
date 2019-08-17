@@ -1,12 +1,21 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { connect } from 'react-redux';
 import withAuth from '../withAuth';
 import io from 'socket.io-client';
 import API from '../utils/API';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import './style.css';
+import {userSwitch} from '../actions/index'
 
 class Chat extends React.Component {
 	
+	componentWillUnmount() {
+		this.props.userSwitch()
+		console.log(this.props.isUser)
+	}
 	constructor(props) {
 		super(props);
 
@@ -15,7 +24,7 @@ class Chat extends React.Component {
 			message: '',
 			messages: [],
 			users: [],
-			room: ''
+			room: '',
 		};
 
 		this.socket = io('localhost:5000');
@@ -60,22 +69,36 @@ class Chat extends React.Component {
 			console.log(data)
 			addMessage(data)
 		})
+		let key = 10000
+		this.handleKey = (data) => {
+			key++
+			return data+key
+		}
 	}
 
 	render() {
         return (
             <div className='chat-wrapper'>
-            
 				<div className='card'>
 					<div className='card-body'>
-						<div className='card-title'>Chat</div>
-						{this.state.users.map(x => x.map(y => <div className='names' style={{color: 'yellow'}} key={y.user}>{y.user}</div>))}
+					<Container>
+						<Row>
+							<div className='card-title' xs={12}>Chat</div>
+						</Row>
+						<Row>
+								{this.state.users.map(x => x.map(y => 
+									<Col className='names' style={{color: 'yellow'}} key={this.handleKey(y.user)} xs={2}>
+										{y.user}
+									</Col>
+								))}
+						</Row>
+					</Container>
 						<hr />
 						<div className='messages'>
 							{this.state.messages.map(message => {
 								return (
-									<div key={message}>
-										{message.author}: {message.message}
+									<div key={this.handleKey(message)}>
+										{message.author} : {message.message}
 									</div>
 								);
 							})}
@@ -102,8 +125,14 @@ class Chat extends React.Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => {
+	return {
+	userSwitch: () => dispatch(userSwitch()),
+  }}
+
 const mapStateToProps = state => ({
 	name: state.name,
+	isUser: state.isUser
 });
 
-export default withAuth(connect(mapStateToProps)(Chat));
+export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Chat));

@@ -17,7 +17,7 @@ class Nav extends React.Component {
 			return(
 				<div>
 					<Navbar className='nav-container' expand="lg">
-						<Navbar.Brand >Mega Letters</Navbar.Brand>
+						<Navbar.Brand >Crystal Madness (Welcome: {this.props.name})</Navbar.Brand>
 						<Navbar.Toggle aria-controls="basic-navbar-nav"/>
 						<Navbar.Collapse id="basic-navbar-nav">
 							<div className='mr-auto navbar-nav'>

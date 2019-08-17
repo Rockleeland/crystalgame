@@ -8,13 +8,10 @@ function capitalize(x) {
 const reducer = (
 	state = {
 		currentUser: {},
-		pot: 0,
 		snackbarIsOpen: false,
 		name: null,
 		names: [],
-		mode: null,
-		whoDidIt: null,
-		email: null
+		email: null,
 	}, action
 ) => {
 	

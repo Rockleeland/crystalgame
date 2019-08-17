@@ -9,8 +9,6 @@ const db = require('./models');
 // Socket.io requires
 const http = require('http');
 const socketIo = require('socket.io');
-const server = http.createServer(app);
-const io = socketIo(server);
 // file requires
 const crystal = require('./cyrstal/crystal');
 // Create PORT
@@ -67,7 +65,7 @@ io.on('connection', socket => {
 	});
 	socket.on('JOIN_GAME', function(data) {
 		var room = io.nsps['/'].adapter.rooms[data.room];
-		if (room && room.length <= 2) {
+		if (room && room.length == 2) {
 			socket.join(data.room);
 			socket.broadcast.to(data.room).emit('player1', {});
 			socket.emit('player2', { name: data.name, room: data.room });
