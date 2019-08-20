@@ -21,8 +21,6 @@ class App extends Component {
     if ((localStorage.token !== 'undefined' && localStorage.token) || localStorage.id_token) { 
       this.props.getProfileFetch()
     }
-
-    
   }
   
   render() {

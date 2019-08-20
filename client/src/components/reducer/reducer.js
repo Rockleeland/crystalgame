@@ -12,9 +12,10 @@ const reducer = (
 		name: null,
 		names: [],
 		email: null,
+		message: '',
+		messages: [],
 	}, action
 ) => {
-	
 	switch(action.type) {
 		case 'LOGIN_USER':
 			const name = capitalize(action.payload.username)
@@ -38,6 +39,9 @@ const reducer = (
 		  // put all of the active clients name to the reducer
 			state = { ...state, names: action.names };
 			break;
+		case 'message':
+			console.log('message')
+			return Object.assign({}, {message:action.data})
 			default:
 			break;
 		}

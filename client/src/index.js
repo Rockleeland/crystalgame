@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
+import createSocketIoMiddleware from 'redux-socket.io';
+import io from 'socket.io-client';
 import thunk from 'redux-thunk';
 import reducer from './components/reducer/reducer';
 import { Provider } from 'react-redux';
@@ -11,8 +13,17 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './components/utils/FontLibrary';
 
+const socket = io('http://localhost:5000')
 
-const store = createStore(reducer, applyMiddleware(thunk));
+let socketIoMiddleware = createSocketIoMiddleware(socket, 'server/');
+
+
+const store = createStore(reducer, applyMiddleware(thunk, socketIoMiddleware));
+// let store = applyMiddleware(socketIoMiddleware)(createStore)(reducer);
+store.subscribe(() => {
+	console.log('new client state', store.getState())
+})
+store.dispatch({type: 'server/hello', data: 'Hello!'});
 
 if(localStorage.getItem("id_token")) {
 	// then we will attach it to the headers of each request from react application via axios
@@ -20,7 +31,6 @@ if(localStorage.getItem("id_token")) {
   }
 //future socket connection
 // export const socket = configureSocket(store.dispatch);
-
 
 ReactDOM.render(
 	<BrowserRouter>

@@ -51,6 +51,12 @@ let rooms = 0;
 io.on('connection', socket => {
 	console.log(`New user connected: ${socket.id}`);
 
+	socket.on('action', (action) => {
+		if(action.type === 'server/hello') {
+			console.log('Got hello data!', action.data);
+			socket.emit('action', {type:'message', data:'goodday!'});
+		}
+	})
 	socket.on('CREATE', data => {
 		console.log(data);
 		socket.join('room-' + ++rooms);
