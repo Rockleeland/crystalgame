@@ -1,21 +1,19 @@
 // require express
 const express = require('express');
-const path = require('path');
-const jwt = require('jsonwebtoken');
 const routes = require('./routes');
 const exjwt = require('express-jwt');
 const mongoose = require('mongoose');
 const morgan = require('morgan'); // used to see requests
-const db = require('./models');
 // Socket.io requires
 const http = require('http');
 const socketIo = require('socket.io');
-// Create PORT
+
 const PORT = process.env.PORT || 5000;
 
 const app = express();
-const server = http.createServer(app)
+const server = http.createServer(app);
 const io = socketIo(server);
+
 //log all requests to the console
 app.use(morgan('dev'));
 
@@ -35,7 +33,6 @@ const isAuthenticated = exjwt({
 	secret: 'all sorts of code up in here',
 });
 
-
 // Socket.io
 const getUsers = () => {
 	let clients = io.sockets.clients().connected;
@@ -51,20 +48,17 @@ let rooms = 0;
 io.on('connection', socket => {
 	console.log(`New user connected: ${socket.id}`);
 
-	socket.on('action', (action) => {
-		
-		if(action.type === 'server/hello') {
+	socket.on('action', action => {
+		if (action.type === 'server/hello') {
 			// console.log('Got hello data!', action.data);
-			socket.emit('action', {type:'message', data:'goodday!'});
+			socket.emit('action', { type: 'message', data: 'goodday!' });
 		}
-		if(action.type === 'server/new-connection') {
+		if (action.type === 'server/new-connection') {
 			// console.log('Got hello data!', action.data);
-			socket.emit('action', {type:'new-user', data: socket.id});
+			socket.emit('action', { type: 'new-user', data: socket.id });
 		}
-	})
+	});
 	socket.on('CREATE', data => {
-		console.log('creating')
-		console.log(data);
 		socket.join('room-' + ++rooms);
 		socket.emit('NEW_GAME', {
 			name: data.name,
@@ -101,28 +95,10 @@ io.on('connection', socket => {
 	});
 });
 
-
-// Any route with isAuthenticated is protected and you need a valid token
-// to access
-// app.get('/api/user/:id', isAuthenticated, (req, res) => {
-// 	console.log('getid');
-// 	console.log(req.params);
-// 	db.User.findById(req.params.id)
-// 		.then(data => {
-// 			if (data) {
-// 				res.json(data);
-// 			} else {
-// 				res.status(404).send({ success: false, message: 'No user found' });
-// 			}
-// 		})
-// 		.catch(err => res.status(400).send(err));
-// });
-
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('game/build'));
 }
-
 
 app.get(
 	'/',
@@ -142,12 +118,7 @@ app.use(function(err, req, res, next) {
 	}
 });
 
-
-app.use(routes)
-// Handles any requests that don't match the ones above
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname, './game/build/index.html'));
-});
+app.use(routes);
 
 server.listen(PORT, function() {
 	console.log(`App is listening on port: ${PORT}`);

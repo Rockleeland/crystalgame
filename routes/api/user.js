@@ -7,16 +7,8 @@ const isAuthenticated = exjwt({
 });
 
 // Any route with isAuthenticated is protected and you need a valid token to access
-router
-    .route('/all-users')
-    .get(userController.getAllUsers);
-router
-    .route('/')
-    .get(userController.isAuthenticated)
-router
-    .route('/:id', isAuthenticated)
-    .get(userController.getUser);
-
+router.route('/all-users').get(userController.getAllUsers);
+router.route('/').get(userController.isAuthenticated);
+router.route('/:id', isAuthenticated).get(userController.getUser);
 
 module.exports = router;
-

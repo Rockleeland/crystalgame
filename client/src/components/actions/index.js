@@ -30,28 +30,28 @@ export const getProfileFetch = () => {
 
 export const getOnlineUsers = userObj => ({
 	type: 'ONLINE_USERS',
-	payload: userObj
+	payload: userObj,
 });
 
 export const getAllUsers = () => {
 	return dispatch => {
-	return fetch('/api/user/all-users', {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-		},
-	})
-	.then(res => res.json())
-	.then(data => {
-		console.log(data);
-		dispatch(allUsers(data))
-	})}
-}
+		return fetch('/api/user/all-users', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+		})
+			.then(res => res.json())
+			.then(data => {
+				dispatch(allUsers(data));
+			});
+	};
+};
 const allUsers = userObj => ({
 	type: 'ALL_USERS',
-	payload: userObj
-})
+	payload: userObj,
+});
 const getID = () => {
 	const Auth = new AuthService();
 	let currentProfile = Auth.getProfile();
@@ -70,5 +70,4 @@ export const newFriend = userObj => ({
 
 export const userSwitch = () => ({
 	type: 'IS_USER_SWITCH',
-})
-
+});

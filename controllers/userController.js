@@ -1,12 +1,12 @@
 const db = require('../models');
 
-let allUsers = []
-let usersOnline = []
+let allUsers = [];
+let usersOnline = [];
 module.exports = {
 	//Get all Usernames to display
 	getAllUsers: function(req, res) {
-		data = allUsers
-	
+		data = allUsers;
+
 		if (allUsers.length > 0) {
 			res.json(data);
 		} else {
@@ -14,15 +14,12 @@ module.exports = {
 				dbUser.map(x => {
 					allUsers.push(x.username);
 				});
-				console.log('////////////////////////////////////////')
-				console.log(data)
-				console.log('////////////////////////////////////////')
 				res.json(data);
 			});
 		}
 	},
 
-	isAuthenticated: function (req, res) {
+	isAuthenticated: function(req, res) {
 		res.send('You are authenticated'); //Sending some response when authenticated
 	},
 
@@ -37,6 +34,4 @@ module.exports = {
 			})
 			.catch(err => res.status(400).send(err));
 	},
-
-	
 };

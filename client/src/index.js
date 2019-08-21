@@ -13,36 +13,31 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './components/utils/FontLibrary';
 
-const socket = io('http://localhost:5000')
-
-let socketIoMiddleware = createSocketIoMiddleware(socket, 'server/');
-
-
+const socket = io('http://localhost:5000');
+const socketIoMiddleware = createSocketIoMiddleware(socket, 'server/');
 const store = createStore(reducer, applyMiddleware(thunk, socketIoMiddleware));
-// let store = applyMiddleware(socketIoMiddleware)(createStore)(reducer);
+
 store.subscribe(() => {
-	console.log('new client state', store.getState())
-})
-store.dispatch({type: 'server/hello', data: 'Hello!'});
+	console.log('new client state', store.getState());
+});
 
-store.dispatch({type: 'server/new-connection', data: 'this.props.name'})
+store.dispatch({ type: 'server/hello', data: 'Hello!' });
 
+store.dispatch({ type: 'server/new-connection', data: 'this.props.name' });
 
-if(localStorage.getItem("id_token")) {
-	// then we will attach it to the headers of each request from react application via axios
-	axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('id_token')}`;
-  }
-//future socket connection
-// export const socket = configureSocket(store.dispatch);
+if (localStorage.getItem('id_token')) {
+	axios.defaults.headers.common[
+		'Authorization'
+	] = `Bearer ${localStorage.getItem('id_token')}`;
+}
 
 ReactDOM.render(
 	<BrowserRouter>
 		<Provider store={store}>
 			<App />
 		</Provider>
-	</BrowserRouter>, document.getElementById('root'));
+	</BrowserRouter>,
+	document.getElementById('root')
+);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();

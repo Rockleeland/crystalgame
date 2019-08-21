@@ -1,7 +1,7 @@
 import React from 'react';
-import Nav from '../Nav'
+import Nav from '../Nav';
 
 function Layout() {
-	return <Nav/>
+	return <Nav />;
 }
-export default Layout
+export default Layout;

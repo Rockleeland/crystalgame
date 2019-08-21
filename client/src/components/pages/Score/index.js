@@ -1,28 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import withAuth from '../../withAuth';
-// import API from '../../utils/API'
 
 class Score extends React.Component {
-
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
-			list: []
-		}
-	};
-	
+			list: [],
+		};
+	}
+
 	componentWillMount() {
 		// this.getList();
 	}
 
 	getList = () => {
 		fetch('/api/getScores')
-		.then(res => res.json())
-		.then(list => this.setState({list}))
-	}
+			.then(res => res.json())
+			.then(list => this.setState({ list }));
+	};
 
-	render(){
+	render() {
 		const { list } = this.state;
 
 		return (
@@ -30,12 +28,8 @@ class Score extends React.Component {
 				<h1>{this.props.currentUser}'s High Score!</h1>
 				{list.length ? (
 					<div>
-						{list.map((item) => {
-							return (
-								<div key={list.indexOf(item)}>
-									{item}
-								</div>
-							)
+						{list.map(item => {
+							return <div key={list.indexOf(item)}>{item}</div>;
 						})}
 					</div>
 				) : (
@@ -44,12 +38,12 @@ class Score extends React.Component {
 					</div>
 				)}
 			</div>
-		)
+		);
 	}
 }
 
 const mapStateToProps = state => ({
-	currentUser: state.name
-})
+	currentUser: state.name,
+});
 
-export default withAuth(connect(mapStateToProps)(Score))
+export default withAuth(connect(mapStateToProps)(Score));

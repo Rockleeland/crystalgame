@@ -1,8 +1,6 @@
 const db = require('../models');
 const jwt = require('jsonwebtoken');
 
-
-
 module.exports = {
 	login: function(req, res) {
 		console.log(req.body);

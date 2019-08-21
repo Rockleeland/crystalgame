@@ -8,13 +8,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './style.css';
-import {userSwitch} from '../actions/index'
+import { userSwitch } from '../actions/index';
 
 class Chat extends React.Component {
-	
 	componentWillUnmount() {
-		this.props.userSwitch()
-		console.log(this.props.isUser)
+		this.props.userSwitch();
+		console.log(this.props.isUser);
 	}
 	constructor(props) {
 		super(props);
@@ -31,15 +30,15 @@ class Chat extends React.Component {
 
 		if (this.props.name !== null) {
 			this.socket.emit('NEW_VISITOR', {
-			user: this.props.name
-		});
-	}
+				user: this.props.name,
+			});
+		}
 
-		this.socket.on('visitors', (data) => {
+		this.socket.on('visitors', data => {
 			const filtered = data.filter(function(value, index, arr) {
-				return value !== null
-			})
-			this.setState({users: [this.state.users, filtered]});
+				return value !== null;
+			});
+			this.setState({ users: [this.state.users, filtered] });
 		});
 
 		this.socket.on('RECEIVE_MESSAGE', function(data) {
@@ -66,33 +65,41 @@ class Chat extends React.Component {
 			API.saveMessages(data).then(data => console.log(data));
 		};
 		this.socket.on('GAME_CREATED', data => {
-			console.log(data)
-			addMessage(data)
-		})
-		let key = 10000
-		this.handleKey = (data) => {
-			key++
-			return data+key
-		}
+			console.log(data);
+			addMessage(data);
+		});
+		let key = 10000;
+		this.handleKey = data => {
+			key++;
+			return data + key;
+		};
 	}
 
 	render() {
-        return (
-            <div className='chat-wrapper'>
+		return (
+			<div className='chat-wrapper'>
 				<div className='card'>
 					<div className='card-body'>
-					<Container>
-						<Row>
-							<div className='card-title' xs={12}>Chat</div>
-						</Row>
-						<Row>
-								{this.state.users.map(x => x.map(y => 
-									<Col className='names' style={{color: 'yellow'}} key={this.handleKey(y.user)} xs={2}>
-										{y.user}
-									</Col>
-								))}
-						</Row>
-					</Container>
+						<Container>
+							<Row>
+								<div className='card-title' xs={12}>
+									Chat
+								</div>
+							</Row>
+							<Row>
+								{this.state.users.map(x =>
+									x.map(y => (
+										<Col
+											className='names'
+											style={{ color: 'yellow' }}
+											key={this.handleKey(y.user)}
+											xs={2}>
+											{y.user}
+										</Col>
+									))
+								)}
+							</Row>
+						</Container>
 						<hr />
 						<div className='messages'>
 							{this.state.messages.map(message => {
@@ -127,12 +134,18 @@ class Chat extends React.Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-	userSwitch: () => dispatch(userSwitch()),
-  }}
+		userSwitch: () => dispatch(userSwitch()),
+	};
+};
 
 const mapStateToProps = state => ({
 	name: state.name,
-	isUser: state.isUser
+	isUser: state.isUser,
 });
 
-export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Chat));
+export default withAuth(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Chat)
+);
