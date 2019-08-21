@@ -11,27 +11,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './style.css'
 
 class Game extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			username: this.props.name,
-			message: '',
-			messages: [],
-			users: [],
-		};
-
-		this.socket = io('localhost:5000');
-
-		this.handleCreate = data => {
-			let name = this.state.username
-			if (name !== null) {
-				this.socket.emit('CREATE', {name: name});
-			}
-		}
+	
+	handleCreate = data => {
+		let name = this.props.name
 		
-		this.handleJoin = data => {
-			let name = this.state.username
+		if (name !== null) {
+			this.socket.emit('CREATE', {name: name});
+		}
+	}
+	
+	handleJoin = data => {
+			let name = this.props.name
 			let roomID = document.getElementById('room').value;
 			
 			if (name === null || !roomID) {
@@ -40,15 +30,14 @@ class Game extends React.Component {
 				this.socket.emit('JOIN_GAME', {name: name, room: roomID});
 			}
 		}
-		this.socket.on('err', data => {
-			console.log(data)
-		});
-		this.socket.on('player2', data => {
-			console.log(data)
-		});
+		// socket.on('err', data => {
+		// 	console.log(data)
+		// });
+		// socket.on('player2', data => {
+		// 	console.log(data)
+		// });
 
 		
-	}
 
 	render() {
 		return(
@@ -70,6 +59,7 @@ class Game extends React.Component {
 
 const mapStateToProps = state => ({
 	name: state.name,
+	socket: state.socket
 });
 
 export default withAuth(connect(mapStateToProps)(Game));

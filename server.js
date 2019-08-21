@@ -11,6 +11,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 // file requires
 const crystal = require('./cyrstal/crystal');
+
 // Create PORT
 const PORT = process.env.PORT || 5000;
 
@@ -36,6 +37,8 @@ const isAuthenticated = exjwt({
 	secret: 'all sorts of code up in here',
 });
 
+let allUsers = []
+let usersOnline = []
 // Socket.io
 const getUsers = () => {
 	let clients = io.sockets.clients().connected;
@@ -52,13 +55,18 @@ io.on('connection', socket => {
 	console.log(`New user connected: ${socket.id}`);
 
 	socket.on('action', (action) => {
+		
 		if(action.type === 'server/hello') {
-			console.log('Got hello data!', action.data);
+			// console.log('Got hello data!', action.data);
 			socket.emit('action', {type:'message', data:'goodday!'});
+		}
+		if(action.type === 'server/new-connection') {
+			// console.log('Got hello data!', action.data);
+			socket.emit('action', {type:'new-user', data: socket.id});
 		}
 	})
 	socket.on('CREATE', data => {
-		console.log(data);
+		// console.log(data);
 		socket.join('room-' + ++rooms);
 		socket.emit('NEW_GAME', {
 			name: data.name,
@@ -81,7 +89,7 @@ io.on('connection', socket => {
 	});
 
 	socket.on('NEW_VISITOR', user => {
-		console.log('NEW_VISITOR', user);
+		// console.log('NEW_VISITOR', user);
 		socket.user = user;
 		emitUsers();
 	});
@@ -196,7 +204,19 @@ app.get('/api/getCrystal', (req, res) => {
 	const crystals = crystal;
 	res.json(crystals);
 });
-
+//Get all Usernames to display
+app.get('/api/all-users', (req, res) => {
+	allUsers = []
+	if (allUsers.length > 0) {
+		res.json(allUsers)
+	} else {
+	db.User.find({}).then(function(dbUser) {
+		dbUser.map(x => {
+			allUsers.push(x.username)
+		})
+		res.json(allUsers)
+	})}
+});
 // Handles any requests that don't match the ones above
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, './game/build/index.html'));

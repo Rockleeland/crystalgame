@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getProfileFetch} from './components/actions';
+import {getProfileFetch, getAllUsers, getOnlineUsers} from './components/actions';
 import {newFriend} from './components/actions';
 // import { sendNameToServer } from './socket.io/index';
 import Splash from './components/pages/Splash';
@@ -20,12 +20,11 @@ class App extends Component {
   componentDidMount() { 
     if ((localStorage.token !== 'undefined' && localStorage.token) || localStorage.id_token) { 
       this.props.getProfileFetch()
+      this.props.getAllUsers();
     }
   }
   
   render() {
-    let allUsers = this.props
- 
     const App = () => (
       <div>
         <Layout />
@@ -36,7 +35,7 @@ class App extends Component {
                   <i className="top left"></i>
                   <i className="top right"></i>
                   <div className="content">
-                    <div className='connected'>{allUsers.length ? (allUsers.map(x => { return <h2>{x}</h2>})) : (null) }</div>
+                    
                     <Switch>
                         <Route exact path='/' component={Splash} />
                         <Route exact path='/login' component={Login}/>
@@ -47,6 +46,7 @@ class App extends Component {
                         <Route path='/score' component={Score}/>
                         <Route path='/instructions' component={Instructions}/>
                     </Switch>
+                    
                   </div>
                   <i className="bottom right"></i>
                   <i className="bottom left"></i>
@@ -68,12 +68,14 @@ const mapDispatchToProps = dispatch => {
   return {
   getProfileFetch: () => dispatch(getProfileFetch()),
   newFriend: () => dispatch(newFriend()),
- 
+  getAllUsers: () => dispatch(getAllUsers()),
+  getOnlineUsers: () => dispatch(getOnlineUsers())
 }}
 
 const mapStateToProps = state => ({
   name: state.name,
   names: state.names,
+  usersArray: state.allUsers
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

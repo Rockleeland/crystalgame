@@ -16,7 +16,6 @@ export const getProfileFetch = () => {
 				.then(res => res.json())
 				.then(data => {
 					if (data.message) {
-						console.log('here');
 						// Here you should have logic to handle invalid creation of a user.
 						// This assumes your Rails API will return a JSON object with a key of
 						// 'message' if there is an error with creating the user, i.e. invalid username
@@ -29,6 +28,30 @@ export const getProfileFetch = () => {
 	};
 };
 
+export const getOnlineUsers = userObj => ({
+	type: 'ONLINE_USERS',
+	payload: userObj
+});
+
+export const getAllUsers = () => {
+return dispatch => {
+	return fetch('/api/all-users', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+					Accept: 'application/json',
+		},
+	})
+	.then(res => res.json())
+	.then(data => {
+		console.log('users');
+		dispatch(allUsers(data))
+	})}
+}
+const allUsers = userObj => ({
+	type: 'ALL_USERS',
+	payload: userObj
+})
 const getID = () => {
 	const Auth = new AuthService();
 	let currentProfile = Auth.getProfile();

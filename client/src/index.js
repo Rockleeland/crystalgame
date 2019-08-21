@@ -25,6 +25,9 @@ store.subscribe(() => {
 })
 store.dispatch({type: 'server/hello', data: 'Hello!'});
 
+store.dispatch({type: 'server/new-connection', data: 'this.props.name'})
+
+
 if(localStorage.getItem("id_token")) {
 	// then we will attach it to the headers of each request from react application via axios
 	axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('id_token')}`;
