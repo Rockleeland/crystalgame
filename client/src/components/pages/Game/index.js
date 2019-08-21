@@ -14,7 +14,6 @@ class Game extends React.Component {
 	
 	handleCreate = data => {
 		let name = this.props.name
-		
 		if (name !== null) {
 			this.socket.emit('CREATE', {name: name});
 		}

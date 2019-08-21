@@ -26,6 +26,7 @@ const reducer = (
 			}
 			break;
 		case 'ALL_USERS' :
+			
 			state = { 
 				...state, 
 				allUsers: action.payload, 

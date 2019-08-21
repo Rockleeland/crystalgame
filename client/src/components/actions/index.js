@@ -34,17 +34,17 @@ export const getOnlineUsers = userObj => ({
 });
 
 export const getAllUsers = () => {
-return dispatch => {
-	return fetch('/api/all-users', {
+	return dispatch => {
+	return fetch('/api/user/all-users', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-					Accept: 'application/json',
+			Accept: 'application/json',
 		},
 	})
 	.then(res => res.json())
 	.then(data => {
-		console.log('users');
+		console.log(data);
 		dispatch(allUsers(data))
 	})}
 }

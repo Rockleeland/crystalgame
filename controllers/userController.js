@@ -1,13 +1,35 @@
 const db = require('../models');
 
+let allUsers = []
+let usersOnline = []
 module.exports = {
+	//Get all Usernames to display
+	getAllUsers: function(req, res) {
+		data = allUsers
+	
+		if (allUsers.length > 0) {
+			res.json(data);
+		} else {
+			db.User.find({}).then(function(dbUser) {
+				dbUser.map(x => {
+					allUsers.push(x.username);
+				});
+				console.log('////////////////////////////////////////')
+				console.log(data)
+				console.log('////////////////////////////////////////')
+				res.json(data);
+			});
+		}
+	},
+
+	isAuthenticated: function (req, res) {
+		res.send('You are authenticated'); //Sending some response when authenticated
+	},
+
 	getUser: function(req, res) {
-		console.log('getid');
-		console.log(req.params);
 		db.User.findById(req.params.id)
 			.then(data => {
 				if (data) {
-					console.log(data);
 					res.json(data);
 				} else {
 					res.status(404).send({ success: false, message: 'No user found' });
@@ -16,18 +38,5 @@ module.exports = {
 			.catch(err => res.status(400).send(err));
 	},
 
-	//Get all Usernames to display
-	getAllUsers: function(req, res) {
-		allUsers = [];
-		if (allUsers.length > 0) {
-			res.json(allUsers);
-		} else {
-			db.User.find({}).then(function(dbUser) {
-				dbUser.map(x => {
-					allUsers.push(x.username);
-				});
-				res.json(allUsers);
-			});
-		}
-	},
+	
 };

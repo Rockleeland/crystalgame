@@ -30,7 +30,7 @@ class Splash extends React.Component {
 		<div>
 			<h1>Hello {this.props.name}, wanna play Crystal Madness!</h1>
 			<div>
-				{this.showAllUsers(allUsers)}
+				{(allUsers.length > 0) ? (this.showAllUsers(allUsers)) : (null)}
 			</div>
 			
 		</div>
