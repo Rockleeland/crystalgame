@@ -122,13 +122,7 @@ io.on('connection', socket => {
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('game/build'));
 }
-// Store user messages
-app.post('/api/message', (req, res) => {
-	console.log(req.body);
-	db.Message.create(req.body)
-		.then(data => res.json(data))
-		.catch(err => res.status(400).json(err));
-});
+
 
 app.get(
 	'/',
