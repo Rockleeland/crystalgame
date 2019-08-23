@@ -13,7 +13,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './components/utils/FontLibrary';
 
-const socket = io('http://localhost:5000');
+export const socket = io('http://localhost:5000');
 const socketIoMiddleware = createSocketIoMiddleware(socket, 'server/');
 const store = createStore(reducer, applyMiddleware(thunk, socketIoMiddleware));
 

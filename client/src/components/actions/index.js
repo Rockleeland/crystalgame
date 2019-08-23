@@ -28,6 +28,26 @@ export const getProfileFetch = () => {
 	};
 };
 
+////////////////////////// Game Page actions ///////////////////////////////////////////////////
+export const createGameRoom = (socket, data) => {
+	return dipatch => {
+		let name = data;
+		socket.emit('CREATE', { name: name });
+	};
+};
+
+export const joinGameRoom = (socket, data, roomID) => {
+	return dispatch => {
+		let name = data;
+		socket.emit('JOIN_GAME', { name: name, room: roomID });
+	};
+};
+
+export const oppJoined = data => ({
+	type: "OPPONENT_JOINED",
+	payload: data.players
+})
+///////////////////////////////////////////////////////////////////////////////////////
 export const getOnlineUsers = userObj => ({
 	type: 'ONLINE_USERS',
 	payload: userObj,
@@ -52,6 +72,7 @@ const allUsers = userObj => ({
 	type: 'ALL_USERS',
 	payload: userObj,
 });
+
 const getID = () => {
 	const Auth = new AuthService();
 	let currentProfile = Auth.getProfile();

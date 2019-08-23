@@ -45,36 +45,56 @@ const emitUsers = () => {
 	io.emit('visitors', getUsers());
 };
 let rooms = 0;
+let player1;
+let player2;
+const players = []
+function Player(player, name) {
+	this.player = player;
+	this.name = name
+};
 io.on('connection', socket => {
 	console.log(`New user connected: ${socket.id}`);
 
 	socket.on('action', action => {
-		if (action.type === 'server/hello') {
-			// console.log('Got hello data!', action.data);
-			socket.emit('action', { type: 'message', data: 'goodday!' });
-		}
-		if (action.type === 'server/new-connection') {
-			// console.log('Got hello data!', action.data);
-			socket.emit('action', { type: 'new-user', data: socket.id });
+		console.log('action: ');console.log(action)
+		switch (action.type) {
+			case 'server/hello':
+				socket.emit('action', { type: 'message', data: 'goodday!' });
+			break;
+			case 'server/new-connection':
+				socket.emit('action', { type: 'new-user', data: socket.id });
+			break;
+			default:
+
 		}
 	});
+
 	socket.on('CREATE', data => {
+		player1 = new Player('player1', data.name)
+		players.push(player1)
+		console.log(player1)
+		console.log(players)
+
 		socket.join('room-' + ++rooms);
 		socket.emit('NEW_GAME', {
 			name: data.name,
 			room: 'room-' + rooms,
 		});
+		
 		socket.broadcast.emit('GAME_CREATED', {
 			author: data.name,
 			message: `Started a game in [room-${+rooms}]`,
 		});
 	});
 	socket.on('JOIN_GAME', function(data) {
+		player2 = new Player('player2', data.name)
 		var room = io.nsps['/'].adapter.rooms[data.room];
-		if (room && room.length == 2) {
+		players.push(player2)
+		console.log(player2)
+		console.log(players)
+		if (room && room.length == 1) {
 			socket.join(data.room);
-			socket.broadcast.to(data.room).emit('player1', {});
-			socket.emit('player2', { name: data.name, room: data.room });
+			io.in(data.room).emit('player2', {players: players});
 		} else {
 			socket.emit('err', { message: 'Sorry, The room is full!' });
 		}

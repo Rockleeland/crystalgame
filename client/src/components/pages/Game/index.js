@@ -1,41 +1,58 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createGameRoom, joinGameRoom, oppJoined } from '../../actions';
 import withAuth from '../../withAuth';
 import Container from 'react-bootstrap/Container';
-import Chat from '../../chat';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './style.css';
+import {socket} from '../../../index'
+
 
 class Game extends React.Component {
+	constructor(props) {
+		super(props);
+		const { dispatch } = this.props;
+		socket.on('err', data => {
+			console.log(data);
+		});
+		socket.on('GAME_CREATED', data => {
+			console.log(data)
+		})
+		socket.on('player2', data => {
+			console.log(data)
+			dispatch(oppJoined(data));
+		});
+	}
 	handleCreate = data => {
+		const { dispatch } = this.props;
 		let name = this.props.name;
 		if (name !== null) {
-			this.socket.emit('CREATE', { name: name });
+			dispatch(createGameRoom(socket, name));
 		}
 	};
 
 	handleJoin = data => {
+		const { dispatch } = this.props;
 		let name = this.props.name;
 		let roomID = document.getElementById('room').value;
 
 		if (name === null || !roomID) {
 			console.log('enter roomID');
 		} else {
-			this.socket.emit('JOIN_GAME', { name: name, room: roomID });
+			dispatch(joinGameRoom(socket, name, roomID));
 		}
 	};
-	// socket.on('err', data => {
-	// 	console.log(data)
-	// });
-	// socket.on('player2', data => {
-	// 	console.log(data)
-	// });
 
 	render() {
+		let opp = this.props.opponent
 		return (
 			<div>
 				<Container>
 					<h1>Game Room</h1>
+					{opp ? (opp.map(x => {
+						if (x.player === 'player2' && x.name !== this.props.name)
+							return <h2 className='new-player'>{`${x.name} has joined!`}</h2>
+						})):(null)}
 					<button className='btn create' onClick={this.handleCreate}>
 						Create Game
 					</button>
@@ -43,18 +60,18 @@ class Game extends React.Component {
 					<button className='btn join' onClick={this.handleJoin}>
 						Join Game
 					</button>
+					
 					<FontAwesomeIcon icon='comments' />
 
-					<Chat />
+			
 				</Container>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = state => ({
-	name: state.name,
-	socket: state.socket,
-});
+const mapStateToProps = (state = {}) => {
+	return { ...state };
+};
 
 export default withAuth(connect(mapStateToProps)(Game));

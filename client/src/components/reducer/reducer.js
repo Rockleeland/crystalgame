@@ -1,5 +1,3 @@
-// import { socket } from '../../index';
-import io from 'socket.io-client';
 
 function capitalize(x) {
 	if (x) {
@@ -8,10 +6,12 @@ function capitalize(x) {
 }
 const reducer = (
 	state = {
-		socket: io('http://localhost:5000'),
 		onlineUsers: [],
 		allUsers: [],
 		snackbarIsOpen: false,
+		player1: null,
+		player2: null,
+		opponent: null,
 		name: null,
 		email: null,
 		message: '',
@@ -19,7 +19,15 @@ const reducer = (
 	},
 	action
 ) => {
+	console.log(action.type)
 	switch (action.type) {
+		case 'OPPONENT_JOINED':
+			console.log(action.payload)
+			state = {
+				...state,
+				opponent: action.payload,
+			};
+			break;
 		case 'ONLINE_USERS':
 			state = {
 				...state,
@@ -47,14 +55,6 @@ const reducer = (
 				names: action.payload,
 			};
 			break;
-		case 'ASSIGNED_USERNAME':
-			// put the assigned client's username to the pot
-			state = { ...state, name: action.name };
-			break;
-		case 'PUT_ALL_NAMES_TO_REDUCER':
-			// put all of the active clients name to the reducer
-			state = { ...state, names: action.names };
-			break;
 		case 'message':
 			state = {
 				...state,
@@ -64,7 +64,7 @@ const reducer = (
 		case 'new-user':
 			state = {
 				...state,
-				message: action.data,
+				id: action.data,
 			};
 			break;
 		default:
