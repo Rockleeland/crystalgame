@@ -44,19 +44,21 @@ const getUsers = () => {
 const emitUsers = () => {
 	io.emit('visitors', getUsers());
 };
+// varibles for socket use
 let rooms = 0;
 let player1;
 let player2;
-const players = []
+const players = [];
+
 function Player(player, name) {
 	this.player = player;
-	this.name = name
+	this.name = name;
 };
+
 io.on('connection', socket => {
 	console.log(`New user connected: ${socket.id}`);
-
+//socket.io-redux
 	socket.on('action', action => {
-		console.log('action: ');console.log(action)
 		switch (action.type) {
 			case 'server/hello':
 				socket.emit('action', { type: 'message', data: 'goodday!' });
@@ -72,8 +74,6 @@ io.on('connection', socket => {
 	socket.on('CREATE', data => {
 		player1 = new Player('player1', data.name)
 		players.push(player1)
-		console.log(player1)
-		console.log(players)
 
 		socket.join('room-' + ++rooms);
 		socket.emit('NEW_GAME', {
@@ -83,23 +83,25 @@ io.on('connection', socket => {
 		
 		socket.broadcast.emit('GAME_CREATED', {
 			author: data.name,
-			message: `Started a game in [room-${+rooms}]`,
+			message: `Started a game in [room-${rooms}]`,
 		});
 	});
 	socket.on('JOIN_GAME', function(data) {
 		player2 = new Player('player2', data.name)
 		var room = io.nsps['/'].adapter.rooms[data.room];
 		players.push(player2)
-		console.log(player2)
-		console.log(players)
+
 		if (room && room.length == 1) {
 			socket.join(data.room);
-			io.in(data.room).emit('player2', {players: players});
+			io.in(data.room).emit('player2', {players: players, room: data.room});
 		} else {
 			socket.emit('err', { message: 'Sorry, The room is full!' });
 		}
 	});
-
+	socket.prependListener('LEAVE_GAME', function(data) {
+		console.log(data.room)
+		socket.leave(data.room)
+	})
 	socket.on('NEW_VISITOR', user => {
 		// console.log('NEW_VISITOR', user);
 		socket.user = user;

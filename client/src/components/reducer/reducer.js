@@ -6,6 +6,7 @@ function capitalize(x) {
 }
 const reducer = (
 	state = {
+		room: null,
 		onlineUsers: [],
 		allUsers: [],
 		snackbarIsOpen: false,
@@ -21,11 +22,14 @@ const reducer = (
 ) => {
 	console.log(action.type)
 	switch (action.type) {
+		case 'LEAVE_GAME':
+			console.log(action.type)
+		break;
 		case 'OPPONENT_JOINED':
-			console.log(action.payload)
 			state = {
 				...state,
-				opponent: action.payload,
+				opponent: action.payload.players,
+				room: action.payload.room
 			};
 			break;
 		case 'ONLINE_USERS':

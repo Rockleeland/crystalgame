@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createGameRoom, joinGameRoom, oppJoined } from '../../actions';
+import { createGameRoom, joinGameRoom, oppJoined, leaveGameRoom } from '../../actions';
 import withAuth from '../../withAuth';
 import Container from 'react-bootstrap/Container';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './style.css';
 import {socket} from '../../../index'
 
@@ -22,6 +22,18 @@ class Game extends React.Component {
 			console.log(data)
 			dispatch(oppJoined(data));
 		});
+	}
+	componentWillUnmount() {
+		if (this.props.room !== null){
+			this.handleLeave()
+		}
+	}
+	
+	handleLeave = () => {
+		const { dispatch } = this.props;
+		let name = this.props.name;
+		let roomID = this.props.room;
+		dispatch(leaveGameRoom(socket, name, roomID));
 	}
 	handleCreate = data => {
 		const { dispatch } = this.props;
@@ -48,10 +60,11 @@ class Game extends React.Component {
 		return (
 			<div>
 				<Container>
-					<h1>Game Room</h1>
+					<h1>Game Lobby</h1>
+					{/* eslint-disable-next-line array-callback-return */}
 					{opp ? (opp.map(x => {
 						if (x.player === 'player2' && x.name !== this.props.name)
-							return <h2 className='new-player'>{`${x.name} has joined!`}</h2>
+							return <h2 className='new-player' key={x.name + Date.now()}>{`${x.name} has joined!`}</h2>
 						})):(null)}
 					<button className='btn create' onClick={this.handleCreate}>
 						Create Game
@@ -60,10 +73,6 @@ class Game extends React.Component {
 					<button className='btn join' onClick={this.handleJoin}>
 						Join Game
 					</button>
-					
-					<FontAwesomeIcon icon='comments' />
-
-			
 				</Container>
 			</div>
 		);

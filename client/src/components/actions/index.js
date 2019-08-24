@@ -31,21 +31,23 @@ export const getProfileFetch = () => {
 ////////////////////////// Game Page actions ///////////////////////////////////////////////////
 export const createGameRoom = (socket, data) => {
 	return dipatch => {
-		let name = data;
-		socket.emit('CREATE', { name: name });
+		socket.emit('CREATE', { name: data });
 	};
 };
 
 export const joinGameRoom = (socket, data, roomID) => {
 	return dispatch => {
-		let name = data;
-		socket.emit('JOIN_GAME', { name: name, room: roomID });
+		socket.emit('JOIN_GAME', { name: data, room: roomID });
 	};
 };
-
+export const leaveGameRoom = (socket, data, roomID) => {
+	return dispatch => {
+		socket.emit('LEAVE_GAME', {name: data, room: roomID})
+	}
+}
 export const oppJoined = data => ({
 	type: "OPPONENT_JOINED",
-	payload: data.players
+	payload: data
 })
 ///////////////////////////////////////////////////////////////////////////////////////
 export const getOnlineUsers = userObj => ({

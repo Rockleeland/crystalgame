@@ -16,6 +16,7 @@ import Score from './components/pages/Score';
 import Layout from './components/Layout';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
+import GameRoom from './components/pages/GameRoom';
 import './App.css';
 // import io from 'socket.io-client';
 
@@ -48,6 +49,7 @@ class App extends Component {
 										<Route path='/profile' component={Profile} />
 										<Route path='/profile/:id' component={Profile} />
 										<Route path='/game' component={Game} data={this.props} />
+										<Route path='/game-room' component={GameRoom} data={this.props} />
 										<Route path='/score' component={Score} />
 										<Route path='/instructions' component={Instructions} />
 									</Switch>
